@@ -1997,7 +1997,7 @@ class Cluster(object):
         plugs = [self._default_plugin]
         if not self.disable_queue:
             plugs.append(self._sge_plugin)
-        plugs += (plugins or self.plugins)[:]
+        if (plugins or self.plugins): plugs += (plugins or self.plugins)[:]
         if reverse:
             plugs.reverse()
         for plug in plugs:
