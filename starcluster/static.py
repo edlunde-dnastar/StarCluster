@@ -140,6 +140,10 @@ INSTANCE_TYPES = {
     'cr1.8xlarge': ['x86_64'],
     'hi1.4xlarge': ['x86_64'],
     'hs1.8xlarge': ['x86_64'],
+    'h1.2xlarge': ['x86_64'],
+    'h1.4xlarge': ['x86_64'],
+    'h1.8xlarge': ['x86_64'],
+    'h1.16xlarge': ['x86_64'],
     'c3.large': ['x86_64'],
     'c3.xlarge': ['x86_64'],
     'c3.2xlarge': ['x86_64'],
@@ -150,6 +154,24 @@ INSTANCE_TYPES = {
     'c4.2xlarge': ['x86_64'],
     'c4.4xlarge': ['x86_64'],
     'c4.8xlarge': ['x86_64'],
+    'c5.large': ['x86_64'],
+    'c5.xlarge': ['x86_64'],
+    'c5.2xlarge': ['x86_64'],
+    'c5.4xlarge': ['x86_64'],
+    'c5.9xlarge': ['x86_64'],
+    'c5.18xlarge': ['x86_64'],
+    'm5.large': ['x86_64'],
+    'm5.xlarge': ['x86_64'],
+    'm5.2xlarge': ['x86_64'],
+    'm5.4xlarge': ['x86_64'],
+    'm5.12xlarge': ['x86_64'],
+    'm5.24xlarge': ['x86_64'],
+    'r4.large': ['x86_64'],
+    'r4.xlarge': ['x86_64'],
+    'r4.2xlarge': ['x86_64'],
+    'r4.4xlarge': ['x86_64'],
+    'r4.8xlarge': ['x86_64'],
+    'r4.16xlarge': ['x86_64'],
     'i2.xlarge': ['x86_64'],
     'i2.2xlarge': ['x86_64'],
     'i2.4xlarge': ['x86_64'],
@@ -184,11 +206,22 @@ HI_IO_TYPES = ['hi1.4xlarge']
 
 HI_STORAGE_TYPES = ['hs1.8xlarge']
 
+H1_STORAGE_TYPES = ['h1.2xlarge', 'h1.4xlarge', 'h1.8xlarge', 'h1.16xlarge']
+
 M3_COMPUTE_TYPES = ['c3.large', 'c3.xlarge', 'c3.2xlarge', 'c3.4xlarge',
                     'c3.8xlarge']
 
 M4_COMPUTE_TYPES = ['c4.large', 'c4.xlarge', 'c4.2xlarge', 'c4.4xlarge',
                     'c4.8xlarge', 'm4.10xlarge']
+
+M5_COMPUTE_TYPES = ['m5.large', 'm5.xlarge', 'm5.2xlarge', 'm5.4xlarge', 
+                    'm5.12xlarge', 'm5.24xlarge']
+
+C5_COMPUTE_TYPES = ['c5.large', 'c5.xlarge', 'c5.2xlarge', 'c5.4xlarge', 
+                    'c5.9xlarge', 'c5.18xlarge']
+
+R4_HIMEM_TYPES = ['r4.large', 'r4.xlarge', 'r4.2xlarge', 
+                  'r4.4xlarge', 'r4.8xlarge', 'r4.16xlarge']
 
 I2_STORAGE_TYPES = ['i2.xlarge', 'i2.2xlarge', 'i2.4xlarge', 'i2.8xlarge']
 
@@ -198,7 +231,8 @@ DENSE_STORAGE_TYPES = ['d2.xlarge', 'd2.2xlarge', 'd2.4xlarge', 'd2.8xlarge']
 
 HVM_ONLY_TYPES = (CLUSTER_COMPUTE_TYPES + CLUSTER_GPU_TYPES +
                   CLUSTER_HIMEM_TYPES + I2_STORAGE_TYPES + I3_STORAGE_TYPES + HIMEM_TYPES +
-                  T2_INSTANCE_TYPES + DENSE_STORAGE_TYPES)
+                  T2_INSTANCE_TYPES + DENSE_STORAGE_TYPES + H1_STORAGE_TYPES + C5_COMPUTE_TYPES +
+                 M5_COMPUTE_TYPES + R4_HIMEM_TYPES)
 
 HVM_TYPES = (HVM_ONLY_TYPES + HI_IO_TYPES + HI_STORAGE_TYPES + SEC_GEN_TYPES +
              M3_COMPUTE_TYPES + M4_COMPUTE_TYPES)
