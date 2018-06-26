@@ -15,36 +15,37 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with StarCluster. If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import re
-import time
-import string
-import pprint
-import warnings
+from collections import Counter
 import datetime
 import json
-from collections import Counter
+import os
+import pprint
+import re
+from retrying import retry
+import string
+import time
+import warnings
+
 
 import iptools
-
-from starcluster import utils
-from starcluster import static
-from starcluster import sshutils
-from starcluster import managers
-from starcluster import userdata
+from starcluster import clustersetup
 from starcluster import deathrow
 from starcluster import exception
-from starcluster import threadpool
-from starcluster import validators
+from starcluster import managers
 from starcluster import progressbar
-from starcluster import clustersetup
+from starcluster import sshutils
+from starcluster import static
+from starcluster import threadpool
+from starcluster import userdata
+from starcluster import utils
+from starcluster import validators
+from starcluster.logger import log
 from starcluster.node import Node
 from starcluster.node import NodeManager
 from starcluster.plugins import sge
-from starcluster.utils import print_timing
-from starcluster.templates import user_msgs
-from starcluster.logger import log
 from starcluster.streaming_node_add import streaming_add
+from starcluster.templates import user_msgs
+from starcluster.utils import print_timing
 
 
 class ClusterManager(managers.Manager):
@@ -946,7 +947,7 @@ class Cluster(object):
         self._nodes.sort(key=lambda n: n.alias)
         log.debug('returning self._nodes = %s' % self._nodes)
         return self._nodes
-
+    @retry(wait_exponential_multiplier=1000, wait_exponential_max=300000)
     def get_nodes_or_raise(self, nodes=None):
         _nodes = self.nodes
         if not _nodes:

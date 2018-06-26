@@ -27,6 +27,7 @@ import socket
 import optparse
 import platform
 import signal
+from retrying import retry
 
 from boto.exception import BotoServerError, EC2ResponseError, S3ResponseError
 
@@ -279,8 +280,13 @@ class StarClusterCLI(object):
             sys.exit(1)
         except socket.error, e:
             log.exception("Connection error:")
-            log.error("Check your internet connection?")
-            sys.exit(1)
+            try:
+                log.info("Retrying command with backoff up to 5 minutes...")
+                run_with_backoff(sc.execute, args)
+            except Exception, e:
+                log.error("Check your internet connection?")
+                log.error("Failed to complete command after exponential backoff" + str(e))
+                sys.exit(1)
         except exception.ThreadPoolException, e:
             log.error(e.format_excs())
             self.bug_found()
@@ -308,6 +314,9 @@ class StarClusterCLI(object):
             log.error("Unhandled exception occured", exc_info=True)
             self.bug_found()
 
+@retry(wait_exponential_multiplier=1000, wait_exponential_max=300000)
+def run_with_backoff(method, args):
+    method(args)
 
 def warn_debug_file_moved():
     old_file = os.path.join(static.TMP_DIR, 'starcluster-debug-%s.log' %
