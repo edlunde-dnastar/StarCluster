@@ -542,7 +542,7 @@ class SSHClient(object):
 
     def execute(self, command, silent=True, only_printable=False,
                 ignore_exit_status=False, log_output=True, detach=False,
-                source_profile=True, raise_on_failure=True, timeout_override=None):
+                source_profile=True, raise_on_failure=True):
         """
         Execute a remote command and return stdout/stderr
 
@@ -558,17 +558,11 @@ class SSHClient(object):
                  after the SSH connection closes (does NOT return output or
                  check for non-zero exit status if detach=True)
         source_profile - if True prefix the command with "source /etc/profile"
-        timeout_override - execute this command with a timeout other than the default client value (seconds)
         raise_on_failure - raise exception.SSHError if command fails
         returns List of output lines
         """
         channel = self.transport.open_session()
-        
-        if timeout_override:
-            channel.settimeout(timeout_override)
-        else:
-            channel.settimeout(self._timeout)
-        
+        channel.settimeout(self._timeout)
         if detach:
             command = "nohup %s &" % command
             if source_profile:
